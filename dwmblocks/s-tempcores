@@ -1,0 +1,4 @@
+#!/bin/sh
+
+temps=$(sensors | awk '/Core 0/ {print $3}' | cut -d '+' -f2)
+echo " $temps"

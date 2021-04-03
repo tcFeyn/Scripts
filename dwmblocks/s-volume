@@ -1,0 +1,16 @@
+#!/bin/sh
+
+sound=$(amixer get Master | grep 'Right:' | awk -F'[][]' '{ print $4 }')
+vol=$(amixer get Master | grep 'Right:' | awk -F'[][]' '{ print $2 }' | sed 's/%$//')
+
+if [ "$sound" = "off" ]; then
+  echo "🔇 $vol%"
+elif [ "$vol"  -ge 80 ]; then
+  echo "🔊 $vol%"
+elif [ "$vol"  -ge 60 ]; then
+  echo "🔉 $vol%"
+elif [ "$vol"  -ge 20 ]; then
+  echo "🔉 $vol%"
+else
+  echo "🔈 $vol%"
+fi

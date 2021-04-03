@@ -1,0 +1,7 @@
+#!/bin/sh
+
+# Run at startup to always update s-mpc dwmblocks
+
+while : ; do
+	mpc idle >/dev/null && pkill -RTMIN+6 dwmblocks || break
+done
