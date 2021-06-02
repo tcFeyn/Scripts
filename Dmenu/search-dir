@@ -1,0 +1,11 @@
+#!/bin/sh
+
+# -- Reads directories from a file and changes cwd to that directory
+
+cd "$(cat ~/.config/dirs.txt | dmenu -p "Select folder:" -F -l 20 )"
+
+# Or use fzf
+#cd "$(cat ~/.config/dirs.txt | fzf --layout reverse --prompt "Select folder: ")"
+
+# Run this at startup to update at every reboot
+#find /home/<USER>/ -type d > /home/USER/.config/dirs.txt

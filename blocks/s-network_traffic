@@ -1,5 +1,4 @@
 #!/bin/sh
-
 update() {
     sum=0
     for arg; do

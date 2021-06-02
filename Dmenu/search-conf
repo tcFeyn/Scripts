@@ -1,0 +1,8 @@
+#!/bin/sh
+
+# -- Searches and opens a config file
+
+file=$(du -a ~/Docs/Github/{dotfiles,nvim,Suckless,Scripts} | awk '{print $2}' | dmenu -p "Select file:" -F -l 20 ) && $TERMINAL -e $EDITOR $file
+
+# Or use fzf
+#du -a ~/Docs/Github/{dotfiles,nvim} | awk '{print $2}' | fzf --layout reverse --prompt "Select folder: " | xargs -r $EDITOR

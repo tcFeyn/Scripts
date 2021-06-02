@@ -1,0 +1,4 @@
+#!/bin/sh
+case $1 in
+    1) exec "$TERMINAL" -e "pac -Syu && yay -Su";;
+esac

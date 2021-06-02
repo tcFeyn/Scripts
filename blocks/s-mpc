@@ -1,8 +1,6 @@
 #!/bin/sh
 isplay=$(mpc status | grep playing | awk '{print $1}')
 ta=$(mpc | sed "/^volume:/d;s/\\&/&amp;/g;s/\\[paused\\].*//g;/\\[playing\\].*/d" | paste -sd '')
-
-# Run up-mpc script and mpd at startup to always update dwmblocks
 pidof -x up-mpc >/dev/null 2>&1 || up-mpc >/dev/null 2>&1 &
-
+#echo [ $ta ]
 [ "$isplay" == "[playing]" ] && echo "🎶 $ta" || echo "🎶 $ta"

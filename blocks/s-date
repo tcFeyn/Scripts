@@ -1,4 +1,3 @@
 #!/bin/sh
-
 data=$(date "+%a, %d %b  %H:%M ")
 echo 📆 $data

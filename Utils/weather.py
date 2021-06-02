@@ -1,13 +1,21 @@
+#!/bin/python
+
+# Go to https://openweathermap.org/city to get a api key
+
 import requests
 
-CITY = "2735943"
+CITY = ""
 API_KEY = ""
 UNITS = "Metric"
 UNIT_KEY = "C"
+#UNIT_KEY = "F"
 LANG = "en"
+#LANG = "nl"
+#LANG = "hu"
 
 REQ = requests.get("http://api.openweathermap.org/data/2.5/weather?id={}&lang={}&appid={}&units={}".format(CITY, LANG,  API_KEY, UNITS))
 try:
+    # HTTP CODE = OK
     if REQ.status_code == 200:
         CURRENT = REQ.json()["weather"][0]["description"].capitalize()
         TEMP = int(float(REQ.json()["main"]["temp"]))

@@ -1,4 +1,0 @@
-#!/bin/sh
-
-# Gets updated throught the check_updates scripts that runs at startup
-echo  0

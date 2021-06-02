@@ -1,4 +1,3 @@
 #!/bin/sh
-
 keyly=$(setxkbmap -query | grep layout | awk '{print $2}')
 echo "$keyly"

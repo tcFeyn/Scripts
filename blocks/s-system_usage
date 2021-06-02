@@ -1,6 +1,5 @@
 #!/bin/sh
-
 gpu=$(sensors | grep -m 1 junction | awk '{print substr($2, length($1)-7)}' | cut -d '.' -f 1)
 cpu=$(sensors | grep -m 1 Tdie | awk '{print substr($2, length($2)-5)}' | cut -d '.' -f 1)
 ram=$(free -h | grep Mem | awk '{print($3)}')
-echo 💽 $ram' | '🌡$cpuºC' | 🌡'$gpuºG
+echo 💽 $ram' | '🌡️ $cpuºC' | 🌡️ '$gpuºG

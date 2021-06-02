@@ -1,0 +1,6 @@
+#!/bin/sh
+
+# -- Kills all instances of a process by its name, sorted by memory usage
+
+pid=$(ps -u $USER -o pid,%mem,%cpu,comm | sort -b -k2 -r | sed -n '1!p' | dmenu -p "Select the program: " -l 20 | awk {'print $4'}) &&
+killall $pid 2>/dev/null && notify-send -u normal "❌ Process Killed!" --icon=" "

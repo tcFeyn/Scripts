@@ -1,0 +1,5 @@
+#!/bin/sh
+
+# -- Runs a script in the Dmenu Scripts folder
+
+scr=$(ls ~/Docs/Scripts/Dmenu | grep -v search-conf | grep -v search-files | grep -v run-script | dmenu -p "Select script:" -F -l 10) && $scr

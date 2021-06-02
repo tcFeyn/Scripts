@@ -1,0 +1,5 @@
+#!/bin/sh
+case $1 in
+    1) exec am-mute;;
+    3) exec "$TERMINAL" -e "pulsemixer";;
+esac

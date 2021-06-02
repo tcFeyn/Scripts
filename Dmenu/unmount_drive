@@ -1,8 +1,10 @@
 #!/bin/sh
 
+# -- Unmount drives
+
 drives=$(lsblk -lp | grep "t /" | grep -v nvme0n1 | grep -v sda | awk '{print $1, "(" $4 ")", "on", $7}')
 [[ "$drives" = "" ]] && notify-send -u normal "No drives to be unmounted" && exit
 
 #chosen=$(echo "$drives" | rofi -dmenu -i -p "Unmount which drive?" | awk '{print $1}')
-chosen=$(echo "$drives" | dmenu -p "Unmount which drive?" | awk '{print $1}')
+chosen=$(echo "$drives" | dmenu -p "Unmount which drive?" -l 5 | awk '{print $1}')
 [[ "$chosen" = "" ]] && exit || sudo umount $chosen && notify-send -u normal "$chosen" "Unmounted"

@@ -1,0 +1,8 @@
+#!/bin/sh
+
+# -- Searches and opens a file
+
+file=$(du -a ~/Docs/{Faculdade,Server,Phone} | grep -v iso-profiles | awk '{print $2}' | dmenu -p "Select folder:" -F -l 20) && $TERMINAL -e $EDITOR $file
+
+# Or use fzf
+#du -a ~/Docs/{Github,Faculdade,Server,Phone} | grep -v iso-profiles | awk '{print $2}' | fzf --layout reverse --prompt "Select folder: " | xargs $EDITOR

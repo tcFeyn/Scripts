@@ -1,0 +1,4 @@
+#!/bin/sh
+
+# -- Simply runs normal dmenu
+dmenu_run -F

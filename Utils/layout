@@ -1,0 +1,3 @@
+#!/bin/sh
+layout=$(setxkbmap -query | grep layout | cut -d ' ' -f 6)
+[ "$layout" = "us" ] && (setxkbmap pt && notify-send -t 1000 -u normal "Layout" "PT" --icon="~/.config/dunst/icons/pt.png") || (setxkbmap us && notify-send -t 1000 -u normal "Layout" "US" --icon="~/.config/dunst/icons/us.png")

@@ -1,18 +1,20 @@
 #!/bin/sh
 
+# -- Mounts Drives
+
 user=$(id -u)
 group=$(id -g)
 
-mountable=$(lsblk -lp | grep -v nvme0n1p1 | grep -v sda | grep "part $" | awk '{print $1, "(" $4 ")"}')
+mountable=$(lsblk -lp | grep -v nvme0n1 | grep -v sda | grep -v sdb | grep "part $" | awk '{print $1, "(" $4 ")"}')
 [[ "$mountable" = "" ]] && notify-send -u normal "No mountable drivers available" && exit 1
 
 #chosen=$(echo "$mountable" | rofi -dmenu -i -p "Mount which drive?" | awk '{print $1}')
-chosen=$(echo "$mountable" |  dmenu -p "Mount which drive?" | awk '{print $1}')
+chosen=$(echo "$mountable" |  dmenu -p "Mount which drive?" -l 5 | awk '{print $1}')
 [[ "$chosen" = "" ]] && exit 1
 
 available_dirs=$(find /media -type d -maxdepth 1 2>/dev/null)
 #mountpoint=$(echo "$available_dirs" | rofi -dmenu -i -p "Select mount point")
-mountpoint=$(echo "$available_dirs" | dmenu -p "Select mount point")
+mountpoint=$(echo "$available_dirs" | dmenu -p "Select mount point" -l 5)
 [[ "$mountpoint" = "" ]] && exit 1
 
 if [[ ! -d "$mountpoint" ]]; then
