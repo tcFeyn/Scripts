@@ -1,0 +1,3 @@
+#!/bin/sh
+cpu=$(sensors | grep -m 1 Tdie | awk '{print substr($2, length($2)-5)}' | cut -d '.' -f 1)
+echo 🌡️ $cpuºC

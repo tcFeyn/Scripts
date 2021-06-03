@@ -9,15 +9,14 @@ if ! updates_aur=$(yay -Qum 2> /dev/null | wc -l); then
 fi
 
 updates=$(("$updates_arch" + "$updates_aur"))
-echo 📦 $updates
-pkill -SIGRTMIN+2 i3blocks
+
+sed -i '2s/.*/echo "📦 $updates"/' ~/Docs/Scripts/blocks/s-packages
 
 #if [ "$updates" -gt 0 ]; then
-#    echo "#!/bin/sh
-#echo  $updates" > ~/Docs/Scripts/dwmblocks/s-packages
+#   sed -i '2s/.*/echo "📦 $updates"/' ~/Docs/Scripts/blocks/s-packages
 #else
-#    echo "#!/bin/sh
-#echo  0 " > ~/Docs/Scripts/dwmblocks/s-packages
+#   sed -i '2s/.*/echo "📦 0"/' ~/Docs/Scripts/blocks/s-packages
 #fi
 
+pkill -SIGRTMIN+3 i3blocks
 #pkill -RTMIN+4 dwmblocks

@@ -1,0 +1,3 @@
+#!/bin/sh
+gpu=$(sensors | grep -m 1 junction | awk '{print substr($2, length($1)-7)}' | cut -d '.' -f 1)
+echo 🌡️ $gpuºG
