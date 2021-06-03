@@ -1,0 +1,4 @@
+#!/bin/sh
+wid=$(xdotool getwindowfocus)
+wname=$(xdotool getwindowname $wid)
+echo 🏷️ $wname
