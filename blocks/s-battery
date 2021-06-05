@@ -4,10 +4,10 @@ capacity=$(cat /sys/class/power_supply/BAT0/capacity)
 bat_status=$(cat /sys/class/power_supply/BAT0/status)
 adp_status=$(cat /sys/class/power_supply/ADP1/online)
 
-if [ "$bat_status" = "Full" ]; then
-    echo " $capacity%"
-elif ["$bat_status" = "Charging"]; then
-    echo " $capacity%"
+if [ "$bat_status" == "Full" ]; then
+    echo "🔋 $capacity%"
+elif [ "$bat_status" == "Charging" ]; then
+    echo "🔌🔋$capacity%"
 else
-    echo " $capacity%"
+    echo "🔋$capacity%"
 fi
