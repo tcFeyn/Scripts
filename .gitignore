@@ -3,5 +3,5 @@ backup
 fans
 fcd
 synaptic
-blocks/s-weather
+blocks/s-weather.py
 blocks/s-packages
