@@ -1,10 +1,25 @@
 #!/bin/sh
 
-# -- Unmount drives
+# -- Unmount Usb and Android devices
 
-drives=$(lsblk -lp | grep "t /" | grep -v nvme0n1 | grep -v sda | awk '{print $1, "(" $4 ")", "on", $7}')
-[[ "$drives" = "" ]] && notify-send -u normal "No drives to be unmounted" && exit
+umount_usb(){
+    usb=$(lsblk -lp | grep "t /" | grep -v nvme0n1 | grep -v sda | awk '{print $1, "(" $4 ")", "on", $7}')
+    [[ "$usb" = "" ]] && notify-send -u normal "No drives to be unmounted" && exit
 
-#chosen=$(echo "$drives" | rofi -dmenu -i -p "Unmount which drive?" | awk '{print $1}')
-chosen=$(echo "$drives" | dmenu -p "Unmount which drive?" -l 5 | awk '{print $1}')
-[[ "$chosen" = "" ]] && exit || sudo umount $chosen && notify-send -u normal "$chosen" "Unmounted"
+    #chosen=$(echo "$drives" | rofi -dmenu -i -p "Unmount which drive?" | awk '{print $1}')
+    chosen=$(echo "$usb" | dmenu -p "Unmount which drive?" -l 5 | awk '{print $1}')
+    [[ "$chosen" = "" ]] && exit || sudo umount $chosen && notify-send -u normal "$chosen" "Unmounted" || notify-send "Something went wrong!"
+}
+
+umount_android(){
+    android=$(simple-mtpfs -l)
+    [[ "$android" = "" ]] && notify-send -u normal "No drives to be unmounted" && exit
+
+    #chosen=$(echo "$android" | rofi -dmenu -i -p "Unmount which drive?" | awk '{print $1}')
+    chosen=$(echo "$android" | dmenu -p "Unmount which drive?" -l 5 | awk '{print $1}')
+    [[ "$chosen" = "" ]] && exit || fusermount -u /media/Phone $chosen && notify-send -u normal "$chosen" "Unmounted" || notify-send "Something went wrong!"
+}
+
+device=$(echo -e "USB\nAndroid" | dmenu -p "Which type of device?" -l 2)
+[[ "$device" = "USB" ]] && umount_usb
+[[ "$device" = "Android" ]] && umount_android

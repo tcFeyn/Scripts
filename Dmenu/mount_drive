@@ -1,26 +1,56 @@
 #!/bin/sh
 
-# -- Mounts Drives
+# -- Mount Usb and Android devices
+# -- It uses simple-mtpfs to mount android devices (https://github.com/phatina/simple-mtpfs)
 
-user=$(id -u)
-group=$(id -g)
+mount_usb(){
+    user=$(id -u)
+    group=$(id -g)
 
-mountable=$(lsblk -lp | grep -v nvme0n1 | grep -v sda | grep -v sdb | grep "part $" | awk '{print $1, "(" $4 ")"}')
-[[ "$mountable" = "" ]] && notify-send -u normal "No mountable drivers available" && exit 1
+    usb=$(lsblk -lp | grep -v nvme0n1 | grep -v sda | grep -v sdb | grep "part $" | awk '{print $1, "(" $4 ")"}')
+    [[ "$usb" = "" ]] && notify-send -u normal "No mountable drivers available" && exit 1
 
-#chosen=$(echo "$mountable" | rofi -dmenu -i -p "Mount which drive?" | awk '{print $1}')
-chosen=$(echo "$mountable" |  dmenu -p "Mount which drive?" -l 5 | awk '{print $1}')
-[[ "$chosen" = "" ]] && exit 1
+    #chosen=$(echo "$usb" | rofi -dmenu -i -p "Mount which drive?" | awk '{print $1}')
+    chosen=$(echo "$usb" |  dmenu -p "Mount which drive?" -l 5 | awk '{print $1}')
+    [[ "$chosen" = "" ]] && exit 1
 
-available_dirs=$(find /media -type d -maxdepth 1 2>/dev/null)
-#mountpoint=$(echo "$available_dirs" | rofi -dmenu -i -p "Select mount point")
-mountpoint=$(echo "$available_dirs" | dmenu -p "Select mount point" -l 5)
-[[ "$mountpoint" = "" ]] && exit 1
+    available_dirs=$(find /media -type d -maxdepth 1 2>/dev/null)
+    #mountpoint=$(echo "$available_dirs" | rofi -dmenu -i -p "Select mount point")
+    mountpoint=$(echo "$available_dirs" | dmenu -p "Select mount point" -l 5)
+    [[ "$mountpoint" = "" ]] && exit 1
 
-if [[ ! -d "$mountpoint" ]]; then
-    #mkdiryn=$(echo -e "Yes\nNo" | rofi -dmenu -i -p "$mountpoint does not exist. Create it?")
-    mkdiryn=$(echo -e "Yes\nNo" | dmenu -p "$mountpoint does not exist. Create it?")
-    [[ "$mkdiryn" = Yes ]] && sudo mkdir -p "$mountpoint" && sudo mount -o rw,uid=$user,gid=$group $chosen $mountpoint && pgrep -x dunst && notify-send -u normal "$chosen" "Mounted on $mountpoint." || exit 1
-else
-    sudo mount -o rw,uid=$user,gid=$group $chosen $mountpoint && pgrep -x dunst && notify-send -u normal "$chosen" "Mounted on $mountpoint."
-fi
+    if [[ ! -d "$mountpoint" ]]; then
+        #mkdiryn=$(echo -e "Yes\nNo" | rofi -dmenu -i -p "$mountpoint does not exist. Create it?")
+        mkdiryn=$(echo -e "Yes\nNo" | dmenu -p "$mountpoint does not exist. Create it?")
+        [[ "$mkdiryn" = Yes ]] && sudo mkdir -p "$mountpoint" && sudo mount -o rw,uid=$user,gid=$group $chosen $mountpoint && notify-send -u normal "$chosen" "Mounted on $mountpoint." || exit 1
+    else
+       sudo mount -o rw,uid=$user,gid=$group $chosen $mountpoint && notify-send -u normal "$chosen" "Mounted on $mountpoint."
+    fi
+}
+
+mount_android(){
+    android=$(simple-mtpfs -l)
+    [[ "$android" = "" ]] && notify-send -u normal "No mountable drivers available" && exit 1
+
+    #chosen=$(echo "$android" | rofi -dmenu -i -p "Mount which drive?" | awk '{print $1}')
+    chosen=$(echo "$android" |  dmenu -p "Mount which drive?" -l 5 | awk '{print $1}')
+    [[ "$chosen" = "" ]] && exit 1
+    id=$(echo "$android" | cut -b 1)
+
+    available_dirs=$(find /media -type d -maxdepth 1 2>/dev/null)
+    #mountpoint=$(echo "$available_dirs" | rofi -dmenu -i -p "Select mount point")
+    mountpoint=$(echo "$available_dirs" | dmenu -p "Select mount point" -l 5)
+    [[ "$mountpoint" = "" ]] && exit 1
+
+    if [[ ! -d "$mountpoint" ]]; then
+        #mkdiryn=$(echo -e "Yes\nNo" | rofi -dmenu -i -p "$mountpoint does not exist. Create it?")
+        mkdiryn=$(echo -e "Yes\nNo" | dmenu -p "$mountpoint does not exist. Create it?")
+        [[ "$mkdiryn" = Yes ]] && sudo mkdir -p "$mountpoint" && simple-mtpfs --device $id $mountpoint && notify-send -u normal "$chosen" "Mounted on $mountpoint." || exit 1
+    else
+        simple-mtpfs --device $id $mountpoint && notify-send -u normal "$chosen" "Mounted on $mountpoint."
+    fi
+}
+
+device=$(echo -e "USB\nAndroid" | dmenu -p "Which type of device?" -l 2)
+[[ "$device" = "USB" ]] && mount_usb
+[[ "$device" = "Android" ]] && mount_android
