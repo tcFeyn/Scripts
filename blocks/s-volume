@@ -8,7 +8,7 @@ if [ "$sound" = "off" ]; then
 elif [ "$vol"  -ge 80 ]; then
   echo "🔊 $vol%"
 elif [ "$vol"  -ge 60 ]; then
-  echo "🔉 $vol%"
+  echo "🔊 $vol%"
 elif [ "$vol"  -ge 20 ]; then
   echo "🔉 $vol%"
 else

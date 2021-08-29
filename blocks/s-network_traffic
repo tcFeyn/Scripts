@@ -14,4 +14,4 @@ update() {
 rx=$(update /sys/class/net/[ew]*/statistics/rx_bytes)
 tx=$(update /sys/class/net/[ew]*/statistics/tx_bytes)
 
-echo "🔻 $(numfmt --to=iec $rx)B  🔺 $(numfmt --to=iec $tx)B"
+echo "🔻 $(numfmt --to=iec $rx)B/s  🔺 $(numfmt --to=iec $tx)B/s"
