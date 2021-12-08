@@ -1,0 +1,10 @@
+#!/bin/bash
+
+while true ; do
+  sleep 2
+  ad=$(spotify.py)
+  if [[ $ad == "Advertisement" ]]; then
+    killall spotify && spotify
+    sleep 2 && playerctl play-pause
+  fi
+done
